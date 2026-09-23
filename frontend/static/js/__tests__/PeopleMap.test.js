@@ -14,6 +14,7 @@ const mockMap = {
     addControl: jest.fn(),
     querySourceFeatures: jest.fn().mockReturnValue([]),
     project: jest.fn((coords) => ({ x: coords[0], y: coords[1] })),
+    getCenter: jest.fn().mockReturnValue({ lng: 18.3, lat: 51.06 }),
     getZoom: jest.fn().mockReturnValue(5),
     getCanvas: jest.fn(() => mockCanvas),
     getContainer: jest.fn(() => mockContainer),
@@ -69,8 +70,11 @@ describe("PeopleMap.vue", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        window.sessionStorage.clear();
         mockMarkerInstance.setLngLat.mockReturnThis();
         mockMarkerInstance.addTo.mockReturnThis();
+        mockMap.getCenter.mockReturnValue({ lng: 18.3, lat: 51.06 });
+        mockMap.getZoom.mockReturnValue(5);
     });
 
     afterEach(() => {
@@ -117,6 +121,50 @@ describe("PeopleMap.vue", () => {
                 type: "geojson",
             }));
         });
+
+        it("restores a saved camera from session storage", () => {
+            window.sessionStorage.setItem("peopleMapCamera", JSON.stringify({
+                center: [37.62, 55.75],
+                zoom: 9,
+            }));
+
+            mountMap(makeGeojson([]));
+
+            var mapboxgl = require("mapbox-gl").default;
+            expect(mapboxgl.Map).toHaveBeenCalledWith(expect.objectContaining({
+                center: [37.62, 55.75],
+                zoom: 9,
+            }));
+        });
+
+        it("ignores invalid saved camera data", () => {
+            window.sessionStorage.setItem("peopleMapCamera", JSON.stringify({
+                center: [37.62, 95],
+                zoom: 9,
+            }));
+
+            mountMap(makeGeojson([]));
+
+            var mapboxgl = require("mapbox-gl").default;
+            expect(mapboxgl.Map).toHaveBeenCalledWith(expect.not.objectContaining({
+                center: expect.anything(),
+            }));
+        });
+
+        it("normalizes a saved longitude after crossing the date line", () => {
+            window.sessionStorage.setItem("peopleMapCamera", JSON.stringify({
+                center: [250, 55.75],
+                zoom: 9,
+            }));
+
+            mountMap(makeGeojson([]));
+
+            var mapboxgl = require("mapbox-gl").default;
+            expect(mapboxgl.Map).toHaveBeenCalledWith(expect.objectContaining({
+                center: [-110, 55.75],
+                zoom: 9,
+            }));
+        });
     });
 
     describe("event handling", () => {
@@ -127,6 +175,19 @@ describe("PeopleMap.vue", () => {
             expect(onCalls.filter(([e]) => e === "move")).toHaveLength(1);
             expect(onCalls.filter(([e]) => e === "moveend")).toHaveLength(1);
             expect(onCalls.filter(([e]) => e === "data")).toHaveLength(1);
+        });
+
+        it("saves the camera after map movement ends", () => {
+            mockMap.getCenter.mockReturnValue({ lng: 286, lat: 40.73 });
+            mockMap.getZoom.mockReturnValue(11.5);
+            mountMap(makeGeojson([]));
+
+            getHandler("moveend")();
+
+            expect(JSON.parse(window.sessionStorage.getItem("peopleMapCamera"))).toEqual({
+                center: [-74, 40.73],
+                zoom: 11.5,
+            });
         });
 
         it("handler count stays constant regardless of how many data events fire", () => {

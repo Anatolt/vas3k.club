@@ -55,6 +55,13 @@ const MESSAGES_CLUSTER_RADIUS = 40;
 const MESSAGE_TEXT_MIN_ZOOM = 10;
 const ROOM_MARKER_LARGE_ZOOM = 4;
 const CAMERA_ANIMATION_MS = 200;
+const MAP_CAMERA_STORAGE_KEY = "peopleMapCamera";
+const MAP_MAX_ZOOM = 16;
+
+function normalizeLongitude(longitude) {
+    if (longitude >= -180 && longitude <= 180) return longitude;
+    return ((longitude + 180) % 360 + 360) % 360 - 180;
+}
 
 export default {
     name: "PeopleMap",
@@ -122,15 +129,22 @@ export default {
     },
     mounted() {
         mapboxgl.accessToken = this.accessToken;
-        this.map = new mapboxgl.Map({
+        const mapOptions = {
             container: this.$refs.map,
             style: this.mapStyle,
-            maxZoom: 16,
+            maxZoom: MAP_MAX_ZOOM,
             attributionControl: false,
             scrollZoom: true,
             dragPan: true,
             touchZoomRotate: true,
-        });
+        };
+        const savedCamera = this.loadCamera();
+        if (savedCamera) {
+            mapOptions.center = savedCamera.center;
+            mapOptions.zoom = savedCamera.zoom;
+        }
+
+        this.map = new mapboxgl.Map(mapOptions);
         this.map.addControl(new mapboxgl.NavigationControl(), "top-right");
         this.map.addControl(new mapboxgl.GeolocateControl(), "top-right");
         this.map.on("load", () => this.onMapLoaded());
@@ -261,6 +275,7 @@ export default {
             map.on("moveend", () => {
                 updateMarkers();
                 this.updateMessageMarkers();
+                this.saveCamera();
             });
 
             map.on("data", (e) => {
@@ -290,6 +305,40 @@ export default {
                 return parsed && parsed.features ? parsed : empty;
             } catch (e) {
                 return empty;
+            }
+        },
+
+        loadCamera() {
+            try {
+                const savedCamera = JSON.parse(window.sessionStorage.getItem(MAP_CAMERA_STORAGE_KEY));
+                if (!savedCamera || !Array.isArray(savedCamera.center) || savedCamera.center.length !== 2) {
+                    return null;
+                }
+
+                const [longitude, latitude] = savedCamera.center;
+                const zoom = savedCamera.zoom;
+                if (![longitude, latitude, zoom].every(Number.isFinite)) return null;
+                if (latitude < -90 || latitude > 90) return null;
+                if (zoom < 0 || zoom > MAP_MAX_ZOOM) return null;
+
+                return { center: [normalizeLongitude(longitude), latitude], zoom };
+            } catch (e) {
+                return null;
+            }
+        },
+
+        saveCamera() {
+            try {
+                const center = this.map.getCenter();
+                window.sessionStorage.setItem(
+                    MAP_CAMERA_STORAGE_KEY,
+                    JSON.stringify({
+                        center: [normalizeLongitude(center.lng), center.lat],
+                        zoom: this.map.getZoom(),
+                    })
+                );
+            } catch (e) {
+                // The map should keep working when storage is unavailable or full.
             }
         },
 
@@ -337,9 +386,10 @@ export default {
             label.classList.add("people-map-room-label");
             const name = props.title || "";
             const count = parseInt(props.member_count, 10) || 0;
-            label.innerText = count > 0
-                ? "Чат " + name + " ・ " + count + " " + pluralize(count, ["человек", "человека", "человек"])
-                : "Чат " + name;
+            label.innerText =
+                count > 0
+                    ? "Чат " + name + " ・ " + count + " " + pluralize(count, ["человек", "человека", "человек"])
+                    : "Чат " + name;
             element.appendChild(label);
 
             return element;
