@@ -1,12 +1,12 @@
 :root {
-    --emoji-font: Apple Color Emoji, Noto Color Emoji, Segoe UI Emoji, Android Emoji, EmojiSymbols, sans-serif;
+    --emoji-font: "Apple Color Emoji", "Noto Color Emoji", "Noto Color Emoji Web", "Segoe UI Emoji", "Android Emoji", EmojiSymbols, sans-serif;
 }
 
 @font-face {
-  font-family: 'Noto Color Emoji';
-  font-style: normal;
-  font-weight: 400;
-  src: url(../webfonts/NotoColorEmoji.woff2) format('woff2');
+    font-family: "Noto Color Emoji Web";
+    font-style: normal;
+    font-weight: 400;
+    src: url(../webfonts/NotoColorEmoji.woff2) format("woff2");
 }
 
 @font-face {
