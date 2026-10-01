@@ -1,131 +1,133 @@
 :root {
-    --emoji-font: "Apple Color Emoji", "Noto Color Emoji", "Noto Color Emoji Web", "Segoe UI Emoji", "Android Emoji", EmojiSymbols, sans-serif;
+    --emoji-font: "Apple Color Emoji", "Noto Color Emoji", "Noto Color Emoji Flags Web", "Segoe UI Emoji", "Android Emoji", EmojiSymbols;
 }
 
 @font-face {
-    font-family: "Noto Color Emoji Web";
+    font-family: "Noto Color Emoji Flags Web";
     font-style: normal;
     font-weight: 400;
-    src: url(../webfonts/NotoColorEmoji.woff2) format("woff2");
+    font-display: swap;
+    src: url("../webfonts/NotoColorEmoji-flags.woff2") format("woff2");
+    unicode-range: U+1F1E6-1F1FF;
 }
 
 @font-face {
-    font-family: Merriweather;
+    font-family: "Merriweather";
     src: local('Merriweather Italic'),
         local('Merriweather-Italic'),
-        url(../webfonts/Merriweather-Italic.woff2) format(woff2),
-        url(../webfonts/Merriweather-Italic.woff) format(woff);
+        url("../webfonts/Merriweather-Italic.woff2") format("woff2"),
+        url("../webfonts/Merriweather-Italic.woff") format("woff");
     font-weight: normal;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Merriweather;
+    font-family: "Merriweather";
     src: local('Merriweather Black'),
         local('Merriweather-Black'),
-        url(../webfonts/Merriweather-Black.woff2) format(woff2),
-        url(../webfonts/Merriweather-Black.woff) format(woff);
+        url("../webfonts/Merriweather-Black.woff2") format("woff2"),
+        url("../webfonts/Merriweather-Black.woff") format("woff");
     font-weight: 900;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Merriweather;
+    font-family: "Merriweather";
     src: local('Merriweather Bold'),
         local('Merriweather-Bold'),
-        url(../webfonts/Merriweather-Bold.woff2) format(woff2),
-        url(../webfonts/Merriweather-Bold.woff) format(woff);
+        url("../webfonts/Merriweather-Bold.woff2") format("woff2"),
+        url("../webfonts/Merriweather-Bold.woff") format("woff");
     font-weight: bold;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Merriweather;
+    font-family: "Merriweather";
     src: local('Merriweather Light'),
         local('Merriweather-Light'),
-        url(../webfonts/Merriweather-Light.woff2) format(woff2),
-        url(../webfonts/Merriweather-Light.woff) format(woff);
+        url("../webfonts/Merriweather-Light.woff2") format("woff2"),
+        url("../webfonts/Merriweather-Light.woff") format("woff");
     font-weight: 300;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Merriweather;
+    font-family: "Merriweather";
     src: local('Merriweather'),
         local('Merriweather Regular'),
         local('Merriweather-Regular'),
-        url(../webfonts/Merriweather-Regular.woff2) format(woff2),
-        url(../webfonts/Merriweather-Regular.woff) format(woff);
+        url("../webfonts/Merriweather-Regular.woff2") format("woff2"),
+        url("../webfonts/Merriweather-Regular.woff") format("woff");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Ubuntu;
+    font-family: "Ubuntu";
     src: local('Ubuntu Italic'),
         local('Ubuntu-Italic'),
-        url(../webfonts/Ubuntu-Italic.woff2) format(woff2),
-        url(../webfonts/Ubuntu-Italic.woff) format(woff);
+        url("../webfonts/Ubuntu-Italic.woff2") format("woff2"),
+        url("../webfonts/Ubuntu-Italic.woff") format("woff");
     font-weight: normal;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Ubuntu;
+    font-family: "Ubuntu";
     src: local('Ubuntu BoldItalic'),
         local('Ubuntu-BoldItalic'),
-        url(../webfonts/Ubuntu-BoldItalic.woff2) format(woff2),
-        url(../webfonts/Ubuntu-BoldItalic.woff) format(woff);
+        url("../webfonts/Ubuntu-BoldItalic.woff2") format("woff2"),
+        url("../webfonts/Ubuntu-BoldItalic.woff") format("woff");
     font-weight: bold;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Ubuntu;
+    font-family: "Ubuntu";
     src: local('Ubuntu Medium'),
         local('Ubuntu-Medium'),
-        url(../webfonts/Ubuntu-Medium.woff2) format(woff2),
-        url(../webfonts/Ubuntu-Medium.woff) format(woff);
+        url("../webfonts/Ubuntu-Medium.woff2") format("woff2"),
+        url("../webfonts/Ubuntu-Medium.woff") format("woff");
     font-weight: 500;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Ubuntu;
+    font-family: "Ubuntu";
     src: local('Ubuntu Bold'),
         local('Ubuntu-Bold'),
-        url(../webfonts/Ubuntu-Bold.woff2) format(woff2),
-        url(../webfonts/Ubuntu-Bold.woff) format(woff);
+        url("../webfonts/Ubuntu-Bold.woff2") format("woff2"),
+        url("../webfonts/Ubuntu-Bold.woff") format("woff");
     font-weight: bold;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Ubuntu;
+    font-family: "Ubuntu";
     src: local('Ubuntu'),
         local('Ubuntu Regular'),
         local('Ubuntu-Regular'),
-        url(../webfonts/Ubuntu-Regular.woff2) format(woff2), url(../webfonts/Ubuntu-Regular.woff) format(woff);
+        url("../webfonts/Ubuntu-Regular.woff2") format("woff2"), url("../webfonts/Ubuntu-Regular.woff") format("woff");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: Ubuntu;
+    font-family: "Ubuntu";
     src: local('Ubuntu MediumItalic'),
         local('Ubuntu-MediumItalic'),
-        url(../webfonts/Ubuntu-MediumItalic.woff2) format(woff2),
-        url(../webfonts/Ubuntu-MediumItalic.woff) format(woff);
+        url("../webfonts/Ubuntu-MediumItalic.woff2") format("woff2"),
+        url("../webfonts/Ubuntu-MediumItalic.woff") format("woff");
     font-weight: 500;
     font-style: italic;
     font-display: swap;

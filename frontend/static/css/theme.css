@@ -1,6 +1,6 @@
 :root {
-    --sans-font: "Ubuntu", Helvetica, Verdana, var(--emoji-font);
-    --serif-font: "Merriweather", Georgia, Times, var(--emoji-font);
+    --sans-font: "Ubuntu", Helvetica, Verdana, var(--emoji-font), sans-serif;
+    --serif-font: "Merriweather", Georgia, Times, var(--emoji-font), serif;
 
     --block-border-radius: 15px;
     --button-border-radius: 15px;

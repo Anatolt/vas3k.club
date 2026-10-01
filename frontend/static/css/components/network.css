@@ -100,7 +100,7 @@
                 line-height: 1em;
                 min-width: 1em;
                 border: solid 2px var(--bg-color);
-                font-family: var(--emoji-font);
+                font-family: var(--emoji-font), sans-serif;
             }
 
                 .network-channel-icon:has(br) {
